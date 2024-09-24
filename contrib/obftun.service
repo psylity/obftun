@@ -1,0 +1,13 @@
+[Unit]
+Description=Obfuscated tunnel service
+After=network.target
+StartLimitIntervalSec=30
+StartLimitBurst=3
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/obftun
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
