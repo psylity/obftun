@@ -14,7 +14,7 @@ Real service packets are encapsulated into fake packets which are filled with ra
 |               v                  |                    |               |                 |
 |  [ obftun in client mode:1111 ]  | <-- (internet) --> |  [ obftun in server mode:2222]  |
 |                                  |                    |                                 |
-+----------------------------------+                    +------------------- 192.168.0.1 -+
++----------------------------------+                    +------------------ 192.168.0.10 -+
 
 $ head -2 /etc/openvpn/client.conf                      $ head -3 /etc/openvpn/server.conf
 proto tcp-client                                        proto tcp-server
@@ -23,7 +23,7 @@ remote 127.0.0.1 1111                                   port 1194
 
 $ cat /etc/obftun.conf                                  $ cat /etc/obftun.conf
 client=true                                             server=true
-bind="127.0.0.1:1111"                                   bind="192.168.0.1:2222"
+bind="127.0.0.1:1111"                                   bind="192.168.0.10:2222"
 peer="192.168.0.10:2222"                                peer="127.0.0.1:1194"
 ```
 

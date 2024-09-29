@@ -100,11 +100,15 @@ void plain_readcb(struct bufferevent *bev, void *user_data) {
     size_t bytes_read;
     do {
         bytes_read = evbuffer_remove(input, ctx->tunnel->service_buf, BUFSIZE);
+        if (bytes_read == 0) {
+            break;
+        }
         exchange_packet_desc_t res = obfsm_pack(ctx->tunnel->obfsm, 0, bytes_read, ctx->tunnel->service_buf);
         if (res.data == NULL) {
             continue;
         }
         bufferevent_write(ctx->tunnel->tunnel_bev, res.data, res.size);
+        free(res.data);
     } while (bytes_read == BUFSIZE);
 }
 
@@ -130,6 +134,9 @@ void tunnel_readcb(struct bufferevent *bev, void *user_data) {
     size_t bytes_read;
     do {
         bytes_read = evbuffer_remove(input, ctx->tunnel->tunnel_buf, BUFSIZE);
+        if (bytes_read == 0) {
+            break;
+        }
         obfsm_consume(ctx->tunnel->obfsm, ctx->tunnel->tunnel_buf, bytes_read, obfs_packetcb, ctx);
     } while (bytes_read == BUFSIZE);
 }
