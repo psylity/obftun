@@ -64,10 +64,8 @@ jobs:
         cp build/obftun rpm/BUILDROOT/usr/local/bin/
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
-        find . rpm/BUILDROOT/
-        ls -al rpm/BUILDROOT/usr/local/bin/obftun
+        find rpm/BUILDROOT/
 
-        # Create spec file
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
         Version: ${VERSION#v}
@@ -79,10 +77,10 @@ jobs:
         %description
         obftun - yet another obfuscated tunnel
         %install
+        mkdir -p %{buildroot}/usr/local/bin
         mkdir -p %{buildroot}/etc/systemd/system
         cp -a rpm/BUILDROOT/etc/systemd/system/obftun.service %{buildroot}/etc/systemd/system/
         cp -a rpm/BUILDROOT/etc/obftun.conf %{buildroot}/etc/
-        mkdir -p %{buildroot}/usr/local/bin
         cp -a rpm/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
         %files
         /usr/local/bin/obftun
