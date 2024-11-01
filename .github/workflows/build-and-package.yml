@@ -1,0 +1,55 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up CMake
+      uses: lukka/get-cmake@v3
+
+    - name: Install build dependencies
+      run: sudo apt-get update && sudo apt-get install -y build-essential cmake devscripts libconfig-dev libevent-dev
+
+    - name: Configure with CMake
+      run: cmake -B build -S .
+
+    - name: Build with CMake
+      run: cmake --build build
+
+    - name: Package to DEB
+      run: |
+        mkdir -p debian/DEBIAN
+        mkdir -p debian/usr/local/bin
+        cp build/obftun debian/usr/local/bin/
+        # Copy service and config files
+        mkdir -p debian/etc/systemd/system
+        cp contrib/obftun.service debian/etc/systemd/system/
+        cp contrib/obftun.conf debian/etc/
+        # Control file for deb packaging
+        cat <<EOF > debian/DEBIAN/control
+        Package: obftun
+        Version: 1.0
+        Section: Network
+        Priority: optional
+        Architecture: amd64
+        Depends: libc6 (>= 2.7)
+        Maintainer: psylity <psylity@gmail.com>
+        Description: obftun - yet another obfuscated tunnel
+        EOF
+        dpkg-deb --build debian obftun.deb
+
+    - name: Upload deb package as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: obftun.deb
+        path: obftun.deb
