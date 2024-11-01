@@ -65,6 +65,7 @@ jobs:
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
         find rpm/BUILDROOT/
+        pwd
 
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
