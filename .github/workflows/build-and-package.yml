@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      VERSION: ${{ github.ref_name }}
+
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
@@ -38,7 +41,7 @@ jobs:
         # Control file for deb packaging
         cat <<EOF > debian/DEBIAN/control
         Package: obftun
-        Version: 1.0
+        Version: ${VERSION#v}
         Section: Network
         Priority: optional
         Architecture: amd64
@@ -60,7 +63,7 @@ jobs:
         # Create spec file
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
-        Version: ${GITHUB_REF##*/}  # Uses the tag as the version
+        Version: ${VERSION#v}
         Release: 1%{?dist}
         Summary: Example project description
         License: MIT
