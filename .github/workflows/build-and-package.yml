@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      VERSION: ${{ github.ref_name }}
+      # VERSION: ${{ github.ref_name }}
+      VERSION: 1.0.0
 
     steps:
     - name: Check out repository
