@@ -48,11 +48,40 @@ jobs:
         EOF
         dpkg-deb --build debian obftun.deb
 
-    - name: Upload deb package as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: obftun.deb
-        path: obftun.deb
+    - name: Package to RPM
+      run: |
+        mkdir -p rpm/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        mkdir -p rpm/BUILDROOT/usr/local/bin
+        cp build/obftun rpm/BUILDROOT/usr/local/bin/
+        # Copy service and config files
+        mkdir -p rpm/BUILDROOT/etc/systemd/system
+        cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
+        cp contrib/obftun.conf rpm/BUILDROOT/etc/
+        # Create spec file
+        cat <<EOF > rpm/SPECS/obftun.spec
+        Name: obftun
+        Version: ${GITHUB_REF##*/}  # Uses the tag as the version
+        Release: 1%{?dist}
+        Summary: Example project description
+        License: MIT
+        Source: %{name}-%{version}.tar.gz
+        BuildArch: x86_64
+        Requires: glibc
+        %description
+        obftun - Example project description
+        %install
+        mkdir -p %{buildroot}/usr/local/bin
+        cp -a rpm/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
+        mkdir -p %{buildroot}/etc/systemd/system
+        cp -a rpm/BUILDROOT/etc/systemd/system/obftun.service %{buildroot}/etc/systemd/system/
+        cp -a rpm/BUILDROOT/etc/obftun.conf %{buildroot}/etc/
+        %files
+        /usr/local/bin/obftun
+        /etc/systemd/system/obftun.service
+        /etc/obftun.conf
+        %changelog
+        EOF
+        rpmbuild --define "_topdir $(pwd)/rpm" -bb rpm/SPECS/obftun.spec
 
     - name: Create Release
       id: create_release
@@ -69,5 +98,15 @@ jobs:
         asset_path: obftun.deb
         asset_name: obftun-${{ github.ref_name }}.deb
         asset_content_type: application/vnd.debian.binary-package
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload RPM to Release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: rpm/RPMS/x86_64/obftun-${{ github.ref_name }}-1.x86_64.rpm
+        asset_name: obftun-${{ github.ref_name }}.rpm
+        asset_content_type: application/x-rpm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
