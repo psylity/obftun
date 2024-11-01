@@ -1,9 +1,12 @@
 name: Build and Package
 
 on:
+  # push:
+  #   tags:
+  #     - 'v*'
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -60,6 +63,7 @@ jobs:
         cp build/obftun rpm/BUILDROOT/usr/local/bin/
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
+        find . rpm/BUILDROOT/
 
         # Create spec file
         cat <<EOF > rpm/SPECS/obftun.spec
