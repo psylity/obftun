@@ -14,9 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # VERSION: ${{ github.ref_name }}
-      VERSION_LONG: v1.0.0
-      VERSION: ${{ VERSION_LONG && VERSION_LONG.startsWith('v') && VERSION_LONG.slice(1) || VERSION_LONG }}
+      # VERSION: ${{ github.ref_name && github.ref_name.startsWith('v') && github.ref_name.slice(1) || github.ref_name }}
+      VERSION: 1.0.0
 
     steps:
     - name: Check out repository
