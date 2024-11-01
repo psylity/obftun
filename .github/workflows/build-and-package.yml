@@ -102,7 +102,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: obftun.deb
-        asset_name: obftun-${VERSION}.deb
+        asset_name: obftun-${{ VERSION }}.deb
         asset_content_type: application/vnd.debian.binary-package
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -111,8 +111,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: rpm/RPMS/x86_64/obftun-${VERSION}-1.x86_64.rpm
-        asset_name: obftun-${VERSION}.rpm
+        asset_path: rpm/RPMS/x86_64/obftun-${{ VERSION }}-1.x86_64.rpm
+        asset_name: obftun-${{ VERSION }}.rpm
         asset_content_type: application/x-rpm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
