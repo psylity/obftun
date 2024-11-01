@@ -80,7 +80,7 @@ $ make
 [ 80%] Building C object CMakeFiles/obftun.dir/tunnel.c.o
 [100%] Linking C executable obftun
 ```
-Since I didn't create .DEBs or RPMs, install it by hands:
+I you don't use .deb or .rpm from the Releases section, install everything by yourself.
 ```bash
 $ sudo mv obftun /usr/bin/
 $ sudo cp ../contrib/obftun.service /etc/systemd/system
@@ -91,7 +91,6 @@ Created symlink /etc/systemd/system/multi-user.target.wants/obftun.service → /
 ```
 
 ## TODO:
-* Create .RPM & .DEB packages;
 * Implement UDP mode;
 * Proper MTU handling;
 * Implement startup mode with heavy obfuscation;
