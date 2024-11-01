@@ -64,8 +64,6 @@ jobs:
         cp build/obftun rpm/BUILDROOT/usr/local/bin/
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
-        find rpm/BUILDROOT/
-        pwd
 
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
@@ -80,9 +78,9 @@ jobs:
         %install
         mkdir -p %{buildroot}/usr/local/bin
         mkdir -p %{buildroot}/etc/systemd/system
-        cp -a rpm/BUILDROOT/etc/systemd/system/obftun.service %{buildroot}/etc/systemd/system/
-        cp -a rpm/BUILDROOT/etc/obftun.conf %{buildroot}/etc/
-        cp -a rpm/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
+        cp -a %{_topdir}/BUILDROOT/etc/systemd/system/obftun.service %{buildroot}/etc/systemd/system/
+        cp -a %{_topdir}/BUILDROOT/etc/obftun.conf %{buildroot}/etc/
+        cp -a %{_topdir}/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
         %files
         /usr/local/bin/obftun
         /etc/systemd/system/obftun.service
