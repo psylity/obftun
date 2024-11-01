@@ -58,6 +58,7 @@ jobs:
         cp build/obftun rpm/BUILDROOT/usr/local/bin/
         # Copy service and config files
         mkdir -p rpm/BUILDROOT/etc/systemd/system
+        cp build/obftun rpm/BUILDROOT/usr/local/bin/
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
         # Create spec file
