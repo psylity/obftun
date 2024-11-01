@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up CMake
-      uses: lukka/get-cmake@v3
+      uses: lukka/get-cmake@latest
 
     - name: Install build dependencies
       run: sudo apt-get update && sudo apt-get install -y build-essential cmake devscripts libconfig-dev libevent-dev
@@ -49,7 +49,7 @@ jobs:
         dpkg-deb --build debian obftun.deb
 
     - name: Upload deb package as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: obftun.deb
         path: obftun.deb
