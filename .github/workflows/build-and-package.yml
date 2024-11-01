@@ -79,11 +79,11 @@ jobs:
         %description
         obftun - yet another obfuscated tunnel
         %install
-        mkdir -p %{buildroot}/usr/local/bin
-        cp -a rpm/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
         mkdir -p %{buildroot}/etc/systemd/system
         cp -a rpm/BUILDROOT/etc/systemd/system/obftun.service %{buildroot}/etc/systemd/system/
         cp -a rpm/BUILDROOT/etc/obftun.conf %{buildroot}/etc/
+        mkdir -p %{buildroot}/usr/local/bin
+        cp -a rpm/BUILDROOT/usr/local/bin/obftun %{buildroot}/usr/local/bin/
         %files
         /usr/local/bin/obftun
         /etc/systemd/system/obftun.service
