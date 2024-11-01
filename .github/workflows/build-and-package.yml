@@ -15,7 +15,8 @@ jobs:
 
     env:
       # VERSION: ${{ github.ref_name }}
-      VERSION: v1.0.0
+      VERSION_LONG: v1.0.0
+      VERSION: ${{ env.VERSION_LONG && env.VERSION_LONG.startsWith('v') && env.VERSION_LONG.slice(1) || env.VERSION_LONG }}
 
     steps:
     - name: Check out repository
@@ -45,7 +46,7 @@ jobs:
         # Control file for deb packaging
         cat <<EOF > debian/DEBIAN/control
         Package: obftun
-        Version: ${VERSION#v}
+        Version: ${VERSION}
         Section: Network
         Priority: optional
         Architecture: amd64
@@ -67,7 +68,7 @@ jobs:
 
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
-        Version: ${VERSION#v}
+        Version: ${VERSION}
         Release: 1%{?dist}
         Summary: yet another obfuscated tunnel
         License: MIT
@@ -102,7 +103,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: obftun.deb
-        asset_name: obftun-${{ VERSION }}.deb
+        asset_name: obftun-${{ env.VERSION }}.deb
         asset_content_type: application/vnd.debian.binary-package
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -111,8 +112,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: rpm/RPMS/x86_64/obftun-${{ VERSION }}-1.x86_64.rpm
-        asset_name: obftun-${{ VERSION }}.rpm
+        asset_path: rpm/RPMS/x86_64/obftun-${{ env.VERSION }}-1.x86_64.rpm
+        asset_name: obftun-${{ env.VERSION }}.rpm
         asset_content_type: application/x-rpm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
