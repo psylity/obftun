@@ -69,3 +69,5 @@ jobs:
         asset_path: obftun.deb
         asset_name: obftun-${{ github.ref_name }}.deb
         asset_content_type: application/vnd.debian.binary-package
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
