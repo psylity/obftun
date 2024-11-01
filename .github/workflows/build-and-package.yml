@@ -16,7 +16,7 @@ jobs:
     env:
       # VERSION: ${{ github.ref_name }}
       VERSION_LONG: v1.0.0
-      VERSION: ${{ env.VERSION_LONG && env.VERSION_LONG.startsWith('v') && env.VERSION_LONG.slice(1) || env.VERSION_LONG }}
+      VERSION: ${{ VERSION_LONG && VERSION_LONG.startsWith('v') && VERSION_LONG.slice(1) || VERSION_LONG }}
 
     steps:
     - name: Check out repository
