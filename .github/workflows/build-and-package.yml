@@ -55,12 +55,12 @@ jobs:
       run: |
         mkdir -p rpm/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
         mkdir -p rpm/BUILDROOT/usr/local/bin
-        cp build/obftun rpm/BUILDROOT/usr/local/bin/
-        # Copy service and config files
         mkdir -p rpm/BUILDROOT/etc/systemd/system
+        mkdir -p rpm/BUILDROOT/usr/local/bin/
         cp build/obftun rpm/BUILDROOT/usr/local/bin/
         cp contrib/obftun.service rpm/BUILDROOT/etc/systemd/system/
         cp contrib/obftun.conf rpm/BUILDROOT/etc/
+
         # Create spec file
         cat <<EOF > rpm/SPECS/obftun.spec
         Name: obftun
