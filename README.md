@@ -1,8 +1,8 @@
 # obftun - yet another obfuscated tunnel
 
-The main purpose of this application is obfuscating traffic between two controlled servers. I personally use it to hide openvpn traffic, it is blocked in my country.
+The primary purpose of this application is to obfuscate traffic between two controlled servers. I personally use it to hide OpenVPN traffic, as it is blocked in my country.
 
-Real service packets are encapsulated into fake packets which are filled with random data and not-really-encrypted payload.
+Real service packets are encapsulated into fake packets filled with random data and a partially encrypted payload.
 
 ## Diagram
 
