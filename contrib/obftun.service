@@ -6,7 +6,7 @@ StartLimitBurst=3
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/obftun
+ExecStart=/usr/local/bin/obftun
 Restart=always
 
 [Install]
